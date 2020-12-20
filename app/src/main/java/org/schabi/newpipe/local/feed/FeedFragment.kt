@@ -52,6 +52,7 @@ import org.schabi.newpipe.local.feed.service.FeedLoadService
 import org.schabi.newpipe.report.UserAction
 import org.schabi.newpipe.util.AnimationUtils.animateView
 import org.schabi.newpipe.util.Localization
+import java.time.OffsetDateTime
 
 class FeedFragment : BaseListFragment<FeedState, Unit>() {
     private lateinit var viewModel: FeedViewModel
@@ -62,7 +63,7 @@ class FeedFragment : BaseListFragment<FeedState, Unit>() {
 
     private var groupId = FeedGroupEntity.GROUP_ALL_ID
     private var groupName = ""
-    private var oldestSubscriptionUpdate: Calendar? = null
+    private var oldestSubscriptionUpdate: OffsetDateTime? = null
 
     init {
         setHasOptionsMenu(true)
@@ -291,12 +292,10 @@ class FeedFragment : BaseListFragment<FeedState, Unit>() {
     }
 
     private fun updateRefreshViewState() {
-        val oldestSubscriptionUpdateText = when {
-            oldestSubscriptionUpdate != null -> Localization.relativeTime(oldestSubscriptionUpdate!!)
-            else -> "—"
-        }
-
-        refresh_text?.text = getString(R.string.feed_oldest_subscription_update, oldestSubscriptionUpdateText)
+        refresh_text?.text = getString(
+            R.string.feed_oldest_subscription_update,
+            oldestSubscriptionUpdate?.let { Localization.relativeTime(it) } ?: "—"
+        )
     }
 
     // /////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,6 @@ import java.time.OffsetDateTime
 import java.util.concurrent.TimeUnit
 import org.schabi.newpipe.database.feed.model.FeedGroupEntity
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
-import org.schabi.newpipe.ktx.toCalendar
 import org.schabi.newpipe.local.feed.service.FeedEventManager
 import org.schabi.newpipe.local.feed.service.FeedEventManager.Event.ErrorResultEvent
 import org.schabi.newpipe.local.feed.service.FeedEventManager.Event.IdleEvent
@@ -48,17 +47,16 @@ class FeedViewModel(applicationContext: Context, val groupId: Long = FeedGroupEn
             .throttleLatest(DEFAULT_THROTTLE_TIMEOUT, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val (event, listFromDB, notLoadedCount, oldestUpdate) = it
+            .subscribe { (event, listFromDB, notLoadedCount, oldestUpdate) ->
 
-                val oldestUpdateCalendar = oldestUpdate?.toCalendar()
-
-                mutableStateLiveData.postValue(when (event) {
-                    is IdleEvent -> FeedState.LoadedState(listFromDB, oldestUpdateCalendar, notLoadedCount)
-                    is ProgressEvent -> FeedState.ProgressState(event.currentProgress, event.maxProgress, event.progressMessage)
-                    is SuccessResultEvent -> FeedState.LoadedState(listFromDB, oldestUpdateCalendar, notLoadedCount, event.itemsErrors)
-                    is ErrorResultEvent -> FeedState.ErrorState(event.error)
-                })
+                mutableStateLiveData.postValue(
+                    when (event) {
+                        is IdleEvent -> FeedState.LoadedState(listFromDB, oldestUpdate, notLoadedCount)
+                        is ProgressEvent -> FeedState.ProgressState(event.currentProgress, event.maxProgress, event.progressMessage)
+                        is SuccessResultEvent -> FeedState.LoadedState(listFromDB, oldestUpdate, notLoadedCount, event.itemsErrors)
+                        is ErrorResultEvent -> FeedState.ErrorState(event.error)
+                    }
+                )
 
                 if (event is ErrorResultEvent || event is SuccessResultEvent) {
                     FeedEventManager.reset()
