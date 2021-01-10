@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main_bg_subtitle">Tap \"Search\" to get started</string>
     <string name="view_count_text">%1$s views</string>
@@ -140,6 +140,7 @@
     <string name="video_is_age_restricted">Show age restricted video. Future changes are possible from the settings.</string>
     <string name="youtube_restricted_mode_enabled_title">YouTube restricted mode</string>
     <string name="restricted_video">This video is age restricted.\n\nIf you want to view it, enable \"Age restricted content\" in the settings.</string>
+    <string name="restricted_video_no_stream">This video is age-restricted.\nDue to new YouTube policies with age-restricted videos, NewPipe cannot access any of its video streams and thus is unable to play it.</string>
     <string name="duration_live">Live</string>
     <string name="downloads">Downloads</string>
     <string name="downloads_title">Downloads</string>
@@ -659,4 +660,9 @@
     <string name="video_detail_by">By %s</string>
     <string name="playlist_page_summary">Playlist page</string>
     <string name="recent">Recent</string>
+    <string name="georestricted_content">This content is not available in your country.</string>
+    <string name="soundcloud_go_plus_content">This is a SoundCloud Go+ track, at least in your country, so it cannot be streamed or downloaded by NewPipe.</string>
+    <string name="private_content">This content is private, so it cannot be streamed or downloaded by NewPipe.</string>
+    <string name="youtube_music_premium_content">This video is available only to YouTube Music Premium members, so it cannot be streamed or downloaded by NewPipe.</string>
+    <string name="paid_content">This content is only available to users who have paid, so it cannot be streamed or downloaded by NewPipe.</string>
 </resources>
