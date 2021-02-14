@@ -183,7 +183,7 @@ dependencies {
 
     implementation "org.jsoup:jsoup:1.13.1"
 
-    implementation "com.squareup.okhttp3:okhttp:3.12.12"
+    implementation "com.squareup.okhttp3:okhttp:3.12.13"
 
     implementation "com.google.android.exoplayer:exoplayer:${exoPlayerVersion}"
     implementation "com.google.android.exoplayer:extension-mediasession:${exoPlayerVersion}"
