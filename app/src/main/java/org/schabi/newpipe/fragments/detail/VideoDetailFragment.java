@@ -53,6 +53,7 @@ import org.schabi.newpipe.download.DownloadDialog;
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.ServiceList;
+import org.schabi.newpipe.extractor.exceptions.ContentNotSupportedException;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeStreamExtractor;
 import org.schabi.newpipe.extractor.stream.AudioStream;
@@ -1256,11 +1257,22 @@ public class VideoDetailFragment extends BaseStateFragment<StreamInfo>
         setTitleToUrl(info.getServiceId(), info.getOriginalUrl(), info.getName());
 
         if (!info.getErrors().isEmpty()) {
-            showSnackBarError(info.getErrors(),
-                    UserAction.REQUESTED_STREAM,
-                    NewPipe.getNameOfService(info.getServiceId()),
-                    info.getUrl(),
-                    0);
+            // Bandcamp fan pages are not yet supported and thus a ContentNotAvailableException is
+            // thrown. This is not an error and thus should not be shown to the user.
+            for (final Throwable throwable : info.getErrors()) {
+                if (throwable instanceof ContentNotSupportedException
+                        && "Fan pages are not supported".equals(throwable.getMessage())) {
+                    info.getErrors().remove(throwable);
+                }
+            }
+
+            if (!info.getErrors().isEmpty()) {
+                showSnackBarError(info.getErrors(),
+                        UserAction.REQUESTED_STREAM,
+                        NewPipe.getNameOfService(info.getServiceId()),
+                        info.getUrl(),
+                        0);
+            }
         }
 
         switch (info.getStreamType()) {
