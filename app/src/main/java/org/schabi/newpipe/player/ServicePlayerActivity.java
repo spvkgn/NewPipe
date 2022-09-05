@@ -154,7 +154,7 @@ public abstract class ServicePlayerActivity extends AppCompatActivity
         onMaybeMuteChanged();
         // to avoid null reference
         if (player != null) {
-        onPlaybackParameterChanged(player.getPlaybackParameters());
+            onPlaybackParameterChanged(player.getPlaybackParameters());
         }
         return true;
     }
